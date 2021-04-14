@@ -26,4 +26,4 @@ let rec head_tail (list1: List<char>) (list2: List<char>) : int =
     
 
 
-let distance (strand1: string) (strand2: string) : int option = head_tail (charList(strand1), charList(strand2))
+let distance (strand1: string) (strand2: string) : int option = head_tail strand1 strand2
