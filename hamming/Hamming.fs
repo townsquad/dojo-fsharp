@@ -1,29 +1,21 @@
-﻿module Hamming
+module Hamming
 
-let compare (a: char) (b: char) : int = 1
+let hamming s1 s2 =
+    if s1 <> s2 then 1 else 0
 
-let charList (str: string) = Seq.toList str
+let matchStrands strandList1 strandList2 =
+    match strandList1, strandList2 with
+    | [], [] -> Some 0
+    | s1, s2 when (Seq.length s1) <> (Seq.length s2) -> None
+    | s1, s2 ->
+        Seq.map2 hamming s1 s2
+        |> Seq.sum
+        |> Some
 
-let list_tail (l : List<char>): List<char> =
-    match l with
-    | [] -> l
-    | head :: tail -> tail
-    
+let toCharacterList strand = Seq.toList strand
 
-let compare_head (element : char) (list : List<char>) : int =
-    match list with
-    | [] -> 0
-    | head :: tail -> compare element head
-    
+let distance (strand1: string) (strand2: string) : int option =
+    let strand1List = toCharacterList strand1
+    let strand2List = toCharacterList strand2
 
-let sum (a: int) (b: int) : int = a + b
-
-let rec head_tail (list1: List<char>) (list2: List<char>) : int =
-    let tail_2 = list_tail list2
-    match list1 with
-    | [] -> 0
-    | head :: tail -> (compare_head head list2) + head_tail(tail, tail_2)
-    
-
-
-let distance (strand1: string) (strand2: string) : int option = head_tail strand1 strand2
+    matchStrands strand1List strand2List
